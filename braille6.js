@@ -23,7 +23,7 @@ languages['6 dots'] = {
 			2: 6
 		}
 	},
-	numberPrefix: [6],
+	numberPrefix: [3, 4, 5, 6],
 	latinToBraille: {
 		"a": [1],
 		"b": [1,2],
@@ -67,7 +67,7 @@ languages['6 dots'] = {
 		"+": [2,3,5],
 		"=": [2,3,5,6],
 		"&": [1, 2, 3, 4, 6],
-		// TODO: numeros devem ser precedidos por 3456
+
 		"0": [2, 4, 5],
 		"1": [1],
 		"2": [1, 2],
