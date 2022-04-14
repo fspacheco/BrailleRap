@@ -24,6 +24,8 @@ $(document).ready( function() {
 		speed: 500,
 		delta: false,
 		goToZero: false,
+        startHome: false,
+        endPage: false,
 		invertX: true,
 		invertY: true,
 		mirrorX: true,
@@ -110,11 +112,11 @@ $(document).ready( function() {
 	}
 
 	let gcodeGoTo = function(X, Y, Z) {
-		return 'G0' + gcodePosition(X, Y, Z)
+		return 'G0' + gcodePosition(X, Y, Z);
 	}
 
 	let gcodeMoveTo = function(X, Y, Z) {
-		return 'G1' + gcodePosition(X, Y, Z)
+		return 'G1' + gcodePosition(X, Y, Z);
 	}
 
 	let gcodeMoveToCached = function (X,Y,Z)
@@ -165,15 +167,18 @@ $(document).ready( function() {
 			dotgrid[i] = new Array (gridsizey);
 			dotgrid[i].fill (0);
 		}
-		codestr = gcodeHome ();
-
+		
+		codestr = '';
+		if (braille.startHome) {
+            codestr = gcodeHome();
+        }
 
 
 		codestr += gcodeSetSpeed(braille.speed);
 
 
 		if(braille.goToZero) {
-			codestr += gcodeMoveTo(0, 0, 0)
+			codestr += gcodeMoveTo(0, 0, 0);
 		}
 
 
@@ -227,9 +232,10 @@ $(document).ready( function() {
 			}
 		}
 
-
-		codestr += gcodeMoveTo (0,braille.paperHeight);
-		codestr += gcodeMotorOff ();
+        if (braille.endPage) {
+            codestr += gcodeMoveTo (0,braille.paperHeight);
+            codestr += gcodeMotorOff ();
+        }
 		return (codestr);
 	}
 
@@ -540,7 +546,7 @@ $(document).ready( function() {
 
 		gcode += gcodeMoveTo(0, 0, headUpPosition)
 		if(braille.goToZero) {
-			gcode += gcodeMoveTo(0, 0, 0)
+			gcode += gcodeMoveTo(0, 0, 0);
 		}
 		//console.log ("gcode", gcode);
 		$("#gcode").val(gcode)
@@ -633,6 +639,8 @@ $(document).ready( function() {
 	createController('mirrorX', null, null, null, printerSettingsFolder, 'Mirror X');
 	createController('mirrorY', null, null, null, printerSettingsFolder, 'Mirror Y');
 	createController('goToZero', null, null, null, printerSettingsFolder, 'Go to zero');
+	createController('startHome', null, null, null, printerSettingsFolder, 'Start at home');
+	createController('endPage', null, null, null, printerSettingsFolder, 'Go to end'); 
 	createController('GCODEup', null, null, null, printerSettingsFolder, 'GCODE Up');
 	createController('GCODEdown', null, null, null, printerSettingsFolder, 'GCODE down');
 
